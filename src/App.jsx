@@ -10,47 +10,64 @@ import {
   Star,
   Award,
   Handshake,
-  Droplets,
   Layers,
   PanelTop,
   ArrowRight,
   Quote,
-  CalendarClock
+  CalendarClock,
+  ShieldAlert
 } from "lucide-react";
 import { supabase } from "./supabaseClient";
 
 const services = [
   {
-    title: "Roof Replacement",
-    icon: Home,
-    description: "Durable, long-lasting roofs built to withstand Winnipeg weather."
-  },
-  {
+    id: "roof-repairs",
     title: "Roof Repairs",
     icon: Hammer,
-    description: "Fast, effective repairs to extend the life of your roof."
+    description:
+      "Quick and effective repairs for leaks, missing shingles, storm damage, and general roof problems."
   },
   {
+    id: "roof-replacement",
+    title: "Roof Replacement",
+    icon: Home,
+    description:
+      "Full roof replacement for homes, garages, rental properties, and commercial buildings."
+  },
+  {
+    id: "roof-inspections",
+    title: "Roof Inspections",
+    icon: ClipboardCheck,
+    description:
+      "Professional inspections to identify roof problems before they become expensive repairs."
+  },
+  {
+    id: "urgent-roof-repairs",
+    title: "Urgent Roof Repairs",
+    icon: ShieldAlert,
+    description:
+      "Fast roofing support when leaks, wind damage, or sudden roof problems need attention."
+  },
+  {
+    id: "shingle-roofing",
     title: "Shingle Roofing",
     icon: Layers,
-    description: "Premium shingles in a variety of styles and colours."
+    description:
+      "Durable asphalt shingle roofing for clean curb appeal and long-lasting protection."
   },
   {
+    id: "flat-roofing",
     title: "Flat Roofing",
     icon: PanelTop,
-    description: "Reliable flat roofing systems for residential and commercial buildings."
-  },
-  {
-    title: "Eavestroughs",
-    icon: Droplets,
-    description: "Seamless eavestrough installation and maintenance."
-  },
-  {
-    title: "Inspections",
-    icon: ClipboardCheck,
-    description: "Thorough roof inspections for peace of mind."
+    description:
+      "Flat roofing repair and replacement for garages, additions, and commercial properties."
   }
 ];
+
+const serviceNavLinks = services.map((service) => ({
+  label: service.title,
+  href: `#${service.id}`
+}));
 
 const galleryImages = [
   "/images/gallery-1.jpg",
@@ -63,19 +80,22 @@ const galleryImages = [
 
 const reviews = [
   {
-    name: "Sarah M.",
+    name: "Winnipeg Homeowner",
     location: "Winnipeg, MB",
-    text: "John Henry Roofing did an outstanding job on our new roof. Professional, efficient, and the attention to detail was exceptional."
+    text:
+      "John Henry Roofing was professional, straightforward, and easy to work with. The roofing work was completed properly and the process was clearly explained."
   },
   {
-    name: "Michael T.",
-    location: "Boniface, MB",
-    text: "We’ve used John Henry Roofing for both repairs and maintenance. They’re reliable, honest, and always deliver great results."
+    name: "Local Property Owner",
+    location: "Winnipeg, MB",
+    text:
+      "We appreciated the experience and attention to detail. The team helped us understand the right solution for our roof and completed the work with care."
   },
   {
-    name: "Lisa R.",
-    location: "Transcona, MB",
-    text: "The team was fantastic from start to finish. Our new eavestroughs and new roof look amazing and the service was excellent."
+    name: "Commercial Client",
+    location: "Winnipeg, MB",
+    text:
+      "Reliable, timely, and focused on getting the job done right. We would call John Henry Roofing again for future roofing needs."
   }
 ];
 
@@ -83,7 +103,8 @@ function App() {
   const [hasScrolled, setHasScrolled] = useState(false);
 
   const [formData, setFormData] = useState({
-    full_name: "",
+    first_name: "",
+    last_name: "",
     phone: "",
     email: "",
     service_needed: "",
@@ -121,10 +142,18 @@ function App() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!formData.full_name || !formData.phone || !formData.email) {
+    if (
+      !formData.first_name ||
+      !formData.last_name ||
+      !formData.phone ||
+      !formData.email ||
+      !formData.service_needed ||
+      !formData.property_address
+    ) {
       setSubmitStatus({
         type: "error",
-        message: "Please complete your name, phone number, and email address."
+        message:
+          "Please complete your first name, last name, phone number, email address, service needed, and property address."
       });
       return;
     }
@@ -140,12 +169,13 @@ function App() {
 
     const { error } = await supabase.from("quote_requests").insert([
       {
-        full_name: formData.full_name,
-        phone: formData.phone,
-        email: formData.email,
+        first_name: formData.first_name.trim(),
+        last_name: formData.last_name.trim(),
+        phone: formData.phone.trim(),
+        email: formData.email.trim(),
         service_needed: formData.service_needed,
-        property_address: formData.property_address,
-        message: formData.message,
+        property_address: formData.property_address.trim(),
+        message: formData.message.trim(),
         status: "New"
       }
     ]);
@@ -159,7 +189,8 @@ function App() {
     }
 
     setFormData({
-      full_name: "",
+      first_name: "",
+      last_name: "",
       phone: "",
       email: "",
       service_needed: "",
@@ -224,7 +255,22 @@ function App() {
 
         <nav className="main-nav" aria-label="Main navigation">
           <a href="#home" className="active">Home</a>
-          <a href="#services">Services</a>
+
+          <div className="nav-dropdown">
+            <a href="#services" className="nav-dropdown-trigger">
+              Services
+              <span aria-hidden="true">▾</span>
+            </a>
+
+            <div className="services-dropdown-menu" aria-label="Services submenu">
+              {serviceNavLinks.map((item) => (
+                <a href={item.href} key={item.label}>
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+
           <a href="#about">About</a>
           <a href="#gallery">Gallery</a>
           <a href="#reviews">Reviews</a>
@@ -243,19 +289,17 @@ function App() {
             <h1>
               Trusted Roofing
               <br />
-              Solutions for
+              Services in
               <br />
-              Homeowners and
-              <br />
-              Businesses
+              Winnipeg
             </h1>
 
             <div className="gold-rule"></div>
 
             <p>
-              Quality craftsmanship. Reliable service.
-              <br />
-              Built to protect what matters most.
+              Residential and commercial roof repairs, roof replacements,
+              inspections, and roofing services backed by 40+ years in the
+              roofing business.
             </p>
 
             <div className="hero-actions">
@@ -277,6 +321,11 @@ function App() {
 
           <div className="section-heading">
             <h2>Complete Roofing Solutions</h2>
+            <p>
+              Roof repairs, replacements, inspections, shingle roofing, flat
+              roofing, and urgent roofing support for homes and businesses
+              across Winnipeg.
+            </p>
           </div>
 
           <div className="service-grid">
@@ -284,7 +333,7 @@ function App() {
               const Icon = service.icon;
 
               return (
-                <article className="service-card" key={service.title}>
+                <article id={service.id} className="service-card" key={service.title}>
                   <Icon size={48} strokeWidth={1.7} />
                   <h3>{service.title}</h3>
                   <p>{service.description}</p>
@@ -304,10 +353,11 @@ function App() {
 
             <div className="experience-panel">
               <strong>40+</strong>
-              <span>Years of Experience</span>
+              <span>Years in Roofing</span>
               <div></div>
               <p>
-                Proudly serving homeowners and businesses with integrity and care.
+                Proudly serving homeowners, property owners, and businesses
+                throughout Winnipeg.
               </p>
             </div>
           </div>
@@ -317,37 +367,39 @@ function App() {
               About John Henry Roofing Ltd.
             </div>
 
-            <h2>A Trusted Name in Roofing</h2>
+            <h2>Built on Integrity. Backed by Experience.</h2>
 
             <p>
-              With over 40 years of experience, John Henry Roofing Ltd. delivers
-              exceptional roofing services with a focus on quality, safety, and
-              customer satisfaction. We treat every project like it is our own home.
+              John Henry Roofing Ltd. is a Winnipeg roofing company with over 40
+              years in the roofing business. We provide straightforward roofing
+              service for homeowners, property owners, and businesses, with
+              clear estimates, honest recommendations, and reliable workmanship.
             </p>
 
             <div className="trust-features">
               <div>
                 <Award size={38} />
-                <h3>Quality Workmanship</h3>
+                <h3>Honest Estimates</h3>
                 <p>
-                  We use premium materials and proven techniques to ensure lasting
-                  results.
+                  Straightforward roofing advice and clear estimates before the
+                  work begins.
                 </p>
               </div>
 
               <div>
                 <Handshake size={38} />
-                <h3>Reliable Service</h3>
+                <h3>Clear Communication</h3>
                 <p>
-                  On time, on budget, and committed to clear communication.
+                  We keep you informed from the first call to the final cleanup.
                 </p>
               </div>
 
               <div>
                 <Users size={38} />
-                <h3>Experienced Team</h3>
+                <h3>Reliable Workmanship</h3>
                 <p>
-                  Skilled professionals dedicated to getting the job done right.
+                  Roofing work completed with care, safety, and attention to
+                  detail.
                 </p>
               </div>
             </div>
@@ -359,6 +411,10 @@ function App() {
 
           <div className="section-heading">
             <h2>Recent Roofing Projects</h2>
+            <p>
+              View examples of roofing repairs, replacements, and completed
+              projects across Winnipeg and surrounding areas.
+            </p>
           </div>
 
           <div className="gallery-grid">
@@ -383,7 +439,15 @@ function App() {
         </section>
 
         <section id="reviews" className="reviews-section">
-          <div className="section-kicker">What Our Clients Say</div>
+          <div className="section-kicker">Customer Reviews</div>
+
+          <div className="section-heading">
+            <h2>Trusted by Homeowners Across Winnipeg</h2>
+            <p>
+              Real customer reviews help homeowners know what kind of service,
+              communication, and workmanship they can expect.
+            </p>
+          </div>
 
           <div className="review-grid">
             {reviews.map((review) => (
@@ -412,7 +476,8 @@ function App() {
             <h2>Request a Free Quote</h2>
 
             <p className="contact-intro">
-              Fill out the form and we’ll get back to you within 24 hours.
+              Tell us what is happening with your roof and we will get back to
+              you as soon as possible.
             </p>
 
             <div className="contact-row">
@@ -438,10 +503,20 @@ function App() {
               <div className="form-grid">
                 <input
                   type="text"
-                  name="full_name"
-                  placeholder="Full Name"
-                  value={formData.full_name}
+                  name="first_name"
+                  placeholder="First Name"
+                  value={formData.first_name}
                   onChange={handleChange}
+                  required
+                />
+
+                <input
+                  type="text"
+                  name="last_name"
+                  placeholder="Last Name"
+                  value={formData.last_name}
+                  onChange={handleChange}
+                  required
                 />
 
                 <input
@@ -450,6 +525,7 @@ function App() {
                   placeholder="Phone Number"
                   value={formData.phone}
                   onChange={handleChange}
+                  required
                 />
 
                 <input
@@ -458,20 +534,35 @@ function App() {
                   placeholder="Email Address"
                   value={formData.email}
                   onChange={handleChange}
+                  required
                 />
 
                 <select
                   name="service_needed"
                   value={formData.service_needed}
                   onChange={handleChange}
+                  required
                 >
                   <option value="">Service Needed</option>
+                  <option value="Roof Inspection">Roof Inspection</option>
+                  <option value="Roof Repair">Roof Repair</option>
+                  <option value="Urgent Roof Repair">Urgent Roof Repair</option>
                   <option value="Roof Replacement">Roof Replacement</option>
-                  <option value="Roof Repairs">Roof Repairs</option>
                   <option value="Shingle Roofing">Shingle Roofing</option>
                   <option value="Flat Roofing">Flat Roofing</option>
-                  <option value="Eavestroughs">Eavestroughs</option>
-                  <option value="Inspection">Inspection</option>
+                  <option value="Siding Inspection">Siding Inspection</option>
+                  <option value="Siding Repair">Siding Repair</option>
+                  <option value="Siding Replacement">Siding Replacement</option>
+                  <option value="Eavestrough Inspection / Repair">
+                    Eavestrough Inspection / Repair
+                  </option>
+                  <option value="Eavestrough Replacement">
+                    Eavestrough Replacement
+                  </option>
+                  <option value="Soffit / Fascia Inspection / Repair">
+                    Soffit / Fascia Inspection / Repair
+                  </option>
+                  <option value="Other / Not Sure">Other / Not Sure</option>
                 </select>
 
                 <input
@@ -481,6 +572,7 @@ function App() {
                   value={formData.property_address}
                   onChange={handleChange}
                   className="form-field-wide"
+                  required
                 />
               </div>
 
@@ -506,8 +598,8 @@ function App() {
 
           <aside className="estimate-card">
             <CalendarClock size={54} />
-            <h3>Fast, Free Estimates</h3>
-            <p>No obligation. No pressure. Honest advice.</p>
+            <h3>Free, No-Obligation Estimates</h3>
+            <p>Straightforward advice. Clear communication. No pressure.</p>
           </aside>
         </section>
       </main>
@@ -546,12 +638,12 @@ function App() {
 
         <div className="footer-column">
           <h3>Services</h3>
-          <a href="#services">Roof Replacement</a>
           <a href="#services">Roof Repair</a>
+          <a href="#services">Roof Replacement</a>
+          <a href="#services">Roof Inspection</a>
+          <a href="#services">Urgent Roof Repairs</a>
           <a href="#services">Shingle Roofing</a>
           <a href="#services">Flat Roofing</a>
-          <a href="#services">Eavestroughs</a>
-          <a href="#services">Inspections</a>
         </div>
 
         <div className="footer-column contact-footer">
