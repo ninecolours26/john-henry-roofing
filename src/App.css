@@ -166,6 +166,82 @@ display: flex;
   background: var(--gold);
 }
 
+.nav-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav-dropdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-dropdown-trigger span {
+  display: inline-block;
+  color: currentColor;
+  font-size: 12px;
+  line-height: 1;
+  transform: translateY(1px);
+}
+
+.services-dropdown-menu {
+  position: absolute;
+  top: calc(100% - 6px);
+  left: 0;
+  width: fit-content;
+  min-width: 0;
+  max-width: none;
+  padding: 8px 0;
+  background: var(--white);
+  border: 1px solid rgba(13, 29, 43, 0.1);
+  border-top: 3px solid var(--gold);
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 14px 28px rgba(13, 29, 43, 0.13);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+  z-index: 220;
+}
+
+.nav-dropdown:hover .services-dropdown-menu,
+.nav-dropdown:focus-within .services-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.services-dropdown-menu a {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  min-width: 0;
+  padding: 10px 16px 10px 20px;
+  color: var(--ink);
+  border-radius: 0;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.main-nav .services-dropdown-menu a {
+  padding: 10px 16px 10px 20px;
+}
+
+.services-dropdown-menu a::after {
+  display: none;
+}
+
+.services-dropdown-menu a:hover {
+  background: var(--cream);
+  color: var(--gold);
+}
+
 .quote-button,
 .primary-button,
 .secondary-button,
@@ -365,6 +441,7 @@ margin: 0;
 }
 
 .service-card {
+  scroll-margin-top: 125px;
   min-height: 158px;
   padding: 14px 13px 13px;
   background: var(--white);
@@ -955,6 +1032,13 @@ margin: 0 0 5px;
     bottom: 1px;
   }
 
+  .services-dropdown-menu {
+    top: calc(100% + 4px);
+    left: 0;
+    width: fit-content;
+    min-width: 0;
+  }
+
   .service-grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -1011,6 +1095,18 @@ margin: 0 0 5px;
     grid-row: auto;
     gap: 15px;
     font-size: 14px;
+  }
+
+  .nav-dropdown {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .services-dropdown-menu {
+    top: calc(100% + 2px);
+    left: 0;
+    width: fit-content;
+    min-width: 0;
   }
 
   .hero-section {
