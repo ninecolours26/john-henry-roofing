@@ -1,34 +1,30 @@
-# John Henry Roofing — Option B Routed Site
+# John Henry Roofing Ltd. Website
 
-This package converts the John Henry Roofing website from a single-page anchor site into a routed React/Vite site with real URLs for the main pages and service pages.
+This package contains the routed React/Vite website for John Henry Roofing Ltd.
 
-## Key changes
+## What is included
 
-- Added React Router routes for Home, About, Services, Gallery, Reviews, Careers, Contact, and Quote.
-- Added service subpages through a dynamic service page route: `/services/:slug`.
-- Added Careers before Contact in the main navigation.
-- Added Eavestroughs & Gutters, Soffit & Fascia, and Siding to the service system.
-- Moved quote form logic into `src/components/QuoteForm.jsx`.
-- Moved company and service copy into `src/data/siteData.js`.
-- Added mobile navigation with a tap-friendly Services dropdown.
-- Added a mobile action bar for Call and Free Estimate.
-- Added `vercel.json` so direct subpage links work on Vercel.
+- Routed pages using `react-router-dom`
+- Homepage, About, Services, individual service pages, Gallery, Reviews, Careers, Contact, and Quote pages
+- Centralized service and company copy in `src/data/siteData.js`
+- Mobile-ready header navigation with hamburger menu
+- Tap-friendly services dropdown on mobile
+- Fixed mobile action bar for Call and Free Estimate
+- Mobile form improvements, including larger input text to prevent iPhone zooming
+- Responsive service cards, gallery cards, reviews, contact, quote, and careers forms
+- Vercel rewrite support in `vercel.json`
 
-## Install note
+## Install and run
 
-After replacing the project files, run:
-
+```bash
 npm install
-
-Then run:
-
 npm run dev
+```
 
-## Supabase note
+## Build test
 
-The quote form expects these environment variables:
+```bash
+npm run build
+```
 
-VITE_SUPABASE_URL
-VITE_SUPABASE_ANON_KEY
-
-If they are missing, the form will show that it is ready but not connected.
+The mobile-ready version was build-tested successfully with Vite.

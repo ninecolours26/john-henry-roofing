@@ -1708,3 +1708,363 @@ textarea {
     font-size: 15px;
   }
 }
+
+/* MOBILE-READY OVERRIDES
+   Keeps the desktop design intact while making the routed site cleaner,
+   faster to navigate, and easier to use on phones and tablets. */
+
+.mobile-nav-backdrop {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  body.mobile-nav-open {
+    overflow: hidden;
+  }
+
+  .top-contact-bar {
+    z-index: 310;
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 320;
+    grid-template-columns: minmax(0, 1fr) 48px;
+    padding: 10px 16px;
+    gap: 10px;
+  }
+
+  .site-header .quote-button {
+    display: none;
+  }
+
+  .brand-logo-wrap {
+    min-height: 52px;
+  }
+
+  .brand-logo {
+    width: min(235px, 72vw);
+    max-height: 52px;
+  }
+
+  .mobile-menu-button {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    border-color: rgba(13, 29, 43, 0.16);
+    box-shadow: 0 6px 14px rgba(13, 29, 43, 0.06);
+  }
+
+  .main-nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-top: 8px;
+    padding: 10px;
+    max-height: min(72vh, 620px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--white);
+    border: 1px solid rgba(13, 29, 43, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 18px 40px rgba(13, 29, 43, 0.16);
+  }
+
+  .main-nav > a,
+  .nav-dropdown-trigger {
+    min-height: 48px;
+    padding: 14px 12px;
+    border-radius: 5px;
+    border-bottom: 1px solid rgba(13, 29, 43, 0.08);
+    font-size: 15px;
+  }
+
+  .main-nav > a:hover,
+  .main-nav > a.active,
+  .nav-dropdown-trigger:hover,
+  .nav-dropdown.is-open .nav-dropdown-trigger {
+    background: var(--cream);
+  }
+
+  .services-dropdown-menu {
+    margin: 4px 0 8px;
+    background: #fffaf1;
+  }
+
+  .services-dropdown-menu a {
+    min-height: 44px;
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+
+  .mobile-nav-backdrop {
+    position: fixed;
+    inset: 0;
+    display: block;
+    z-index: 250;
+    border: 0;
+    background: rgba(7, 19, 30, 0.35);
+    cursor: pointer;
+  }
+
+  .hero-section {
+    min-height: auto;
+    padding: 34px 0 255px;
+    align-items: flex-start;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(251, 250, 246, 1) 0%,
+        rgba(251, 250, 246, 0.96) 42%,
+        rgba(251, 250, 246, 0.22) 74%,
+        rgba(251, 250, 246, 0) 100%
+      ),
+      url("/images/hero-house.jpg");
+    background-size: cover;
+    background-position: center bottom;
+  }
+
+  .hero-content {
+    padding: 0 20px;
+  }
+
+  .hero-content h1 {
+    max-width: 520px;
+    font-size: clamp(36px, 8.6vw, 48px);
+  }
+
+  .hero-content p {
+    max-width: 560px;
+    font-size: 15px;
+  }
+
+  .page-hero {
+    min-height: 260px;
+  }
+
+  .page-hero-content {
+    width: calc(100% - 40px);
+    margin-left: 20px;
+    padding: 40px 0;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(34px, 8.6vw, 52px);
+  }
+
+  .content-section,
+  .services-band,
+  .gallery-section,
+  .reviews-section,
+  .about-section,
+  .contact-quote-section,
+  .values-section {
+    width: calc(100% - 32px);
+  }
+
+  .content-section {
+    padding: 42px 0;
+  }
+
+  .section-heading-wrap h2,
+  .content-section h2,
+  .about-content h2 {
+    font-size: clamp(28px, 7vw, 38px);
+  }
+
+  .service-card,
+  .review-card,
+  .values-section article,
+  .wide-cta-card,
+  .career-card,
+  .service-detail-card,
+  .careers-form,
+  .estimate-card {
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 760px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    padding-bottom: calc(66px + env(safe-area-inset-bottom));
+  }
+
+  .top-contact-inner {
+    width: calc(100% - 28px);
+    padding: 7px 0;
+  }
+
+  .top-service-area {
+    width: 100%;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+  }
+
+  .top-contact-links {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    gap: 6px;
+  }
+
+  .top-contact-links a {
+    min-height: 26px;
+  }
+
+  .site-header {
+    padding: 9px 14px;
+  }
+
+  .brand-logo {
+    width: min(222px, 70vw);
+  }
+
+  .hero-section {
+    padding: 30px 0 225px;
+  }
+
+  .hero-content {
+    padding: 0 16px;
+  }
+
+  .hero-content h1,
+  .page-hero h1 {
+    letter-spacing: -1.1px;
+  }
+
+  .hero-actions {
+    gap: 10px;
+  }
+
+  .primary-button,
+  .secondary-button {
+    min-height: 48px;
+    font-size: 13px;
+  }
+
+  .services-band {
+    margin-bottom: 14px;
+    padding: 28px 14px;
+  }
+
+  .service-card {
+    min-height: auto;
+    padding: 22px 18px;
+  }
+
+  .service-card h3,
+  .service-card p {
+    min-height: 0;
+  }
+
+  .about-section {
+    margin-top: 20px;
+    margin-bottom: 22px;
+  }
+
+  .trust-features > div {
+    padding: 20px 0;
+  }
+
+  .gallery-card,
+  .full-gallery-grid .gallery-card {
+    height: 220px;
+  }
+
+  .review-card {
+    min-height: auto;
+  }
+
+  .wide-cta-card {
+    padding: 20px;
+  }
+
+  .service-detail-actions,
+  .wide-cta-card {
+    align-items: stretch;
+  }
+
+  .service-detail-actions .primary-button,
+  .service-detail-actions .secondary-button,
+  .wide-cta-card .primary-button,
+  .wide-cta-card .secondary-button {
+    width: 100%;
+  }
+
+  .contact-panel,
+  .estimate-card {
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .contact-intro {
+    max-width: none;
+  }
+
+  input,
+  select,
+  textarea {
+    min-height: 46px;
+    font-size: 16px;
+  }
+
+  textarea {
+    min-height: 120px;
+  }
+
+  .form-status {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .site-footer {
+    padding-bottom: calc(30px + env(safe-area-inset-bottom));
+  }
+
+  .mobile-action-bar {
+    bottom: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--deep-navy);
+  }
+
+  .mobile-action-bar a {
+    min-height: 62px;
+    font-size: 14px;
+  }
+
+  body.mobile-nav-open .mobile-action-bar {
+    display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .mobile-menu-button {
+    width: 44px;
+    height: 44px;
+  }
+
+  .brand-logo {
+    width: min(205px, 68vw);
+  }
+
+  .hero-section {
+    padding-bottom: 205px;
+  }
+
+  .section-kicker {
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 1.8px;
+  }
+
+  .section-kicker::before,
+  .section-kicker::after {
+    width: 28px;
+  }
+}

@@ -22,6 +22,24 @@ export default function Header() {
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [location.pathname]);
 
+  useEffect(() => {
+    document.body.classList.toggle("mobile-nav-open", mobileOpen);
+
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        setMobileOpen(false);
+        setServicesOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.classList.remove("mobile-nav-open");
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [mobileOpen]);
+
   const closeMenus = () => {
     setMobileOpen(false);
     setServicesOpen(false);
@@ -52,7 +70,7 @@ export default function Header() {
         </div>
       </div>
 
-      <header className={`site-header ${hasScrolled ? "scrolled" : ""}`}>
+      <header className={`site-header ${hasScrolled ? "scrolled" : ""} ${mobileOpen ? "menu-open" : ""}`}>
         <Link to="/" className="brand" aria-label="John Henry Roofing home" onClick={closeMenus}>
           <div className="brand-logo-wrap">
             <img
@@ -138,6 +156,15 @@ export default function Header() {
           <CalendarClock size={17} />
         </Link>
       </header>
+
+      {mobileOpen && (
+        <button
+          type="button"
+          className="mobile-nav-backdrop"
+          aria-label="Close navigation menu"
+          onClick={closeMenus}
+        />
+      )}
     </>
   );
 }
