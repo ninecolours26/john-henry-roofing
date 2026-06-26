@@ -1,16 +1,34 @@
-# React + Vite
+# John Henry Roofing — Option B Routed Site
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This package converts the John Henry Roofing website from a single-page anchor site into a routed React/Vite site with real URLs for the main pages and service pages.
 
-Currently, two official plugins are available:
+## Key changes
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Added React Router routes for Home, About, Services, Gallery, Reviews, Careers, Contact, and Quote.
+- Added service subpages through a dynamic service page route: `/services/:slug`.
+- Added Careers before Contact in the main navigation.
+- Added Eavestroughs & Gutters, Soffit & Fascia, and Siding to the service system.
+- Moved quote form logic into `src/components/QuoteForm.jsx`.
+- Moved company and service copy into `src/data/siteData.js`.
+- Added mobile navigation with a tap-friendly Services dropdown.
+- Added a mobile action bar for Call and Free Estimate.
+- Added `vercel.json` so direct subpage links work on Vercel.
 
-## React Compiler
+## Install note
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+After replacing the project files, run:
 
-## Expanding the ESLint configuration
+npm install
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Then run:
+
+npm run dev
+
+## Supabase note
+
+The quote form expects these environment variables:
+
+VITE_SUPABASE_URL
+VITE_SUPABASE_ANON_KEY
+
+If they are missing, the form will show that it is ready but not connected.
